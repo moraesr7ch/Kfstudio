@@ -459,4 +459,156 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ==========================================================================
+    // 9. GALLERY PHOTO SLIDER (SWIPE / DRAG SUPPORT)
+    // ==========================================================================
+    const initializeSliders = () => {
+        const sliderContainers = document.querySelectorAll('.slider-container');
+        
+        sliderContainers.forEach(container => {
+            const wrapper = container.querySelector('.slider-wrapper');
+            if (!wrapper) return;
+            
+            const slides = wrapper.querySelectorAll('.slider-slide');
+            if (slides.length <= 1) {
+                // Se só tem 1 slide, removemos indicadores de paginação caso existam
+                const dotsContainer = container.querySelector('.slider-dots');
+                if (dotsContainer) dotsContainer.remove();
+                container.style.cursor = 'default';
+                return;
+            }
+            
+            let isDragging = false;
+            let startX = 0;
+            let currentTranslate = 0;
+            let prevTranslate = 0;
+            let animationID = 0;
+            let currentIndex = 0;
+            const dots = container.querySelectorAll('.dot');
+            
+            // Eventos de Toque
+            container.addEventListener('touchstart', touchStart, { passive: true });
+            container.addEventListener('touchend', touchEnd);
+            container.addEventListener('touchmove', touchMove, { passive: true });
+            
+            // Eventos de Mouse
+            container.addEventListener('mousedown', dragStart);
+            container.addEventListener('mouseup', dragEnd);
+            container.addEventListener('mouseleave', dragEnd);
+            container.addEventListener('mousemove', dragMove);
+            
+            function touchStart(event) {
+                startX = getPositionX(event);
+                isDragging = true;
+                animationID = requestAnimationFrame(animation);
+                container.classList.add('grabbing');
+            }
+            
+            function touchMove(event) {
+                if (!isDragging) return;
+                const currentX = getPositionX(event);
+                const diff = currentX - startX;
+                currentTranslate = prevTranslate + diff;
+            }
+            
+            function touchEnd() {
+                if (!isDragging) return;
+                isDragging = false;
+                cancelAnimationFrame(animationID);
+                container.classList.remove('grabbing');
+                
+                const movedBy = currentTranslate - prevTranslate;
+                
+                // Limite de 80 pixels para mudar de slide
+                if (movedBy < -80 && currentIndex < slides.length - 1) {
+                    currentIndex += 1;
+                } else if (movedBy > 80 && currentIndex > 0) {
+                    currentIndex -= 1;
+                }
+                
+                setPositionByIndex();
+            }
+            
+            function dragStart(event) {
+                event.preventDefault();
+                startX = getPositionX(event);
+                isDragging = true;
+                animationID = requestAnimationFrame(animation);
+                container.classList.add('grabbing');
+            }
+            
+            function dragMove(event) {
+                if (!isDragging) return;
+                const currentX = getPositionX(event);
+                const diff = currentX - startX;
+                currentTranslate = prevTranslate + diff;
+            }
+            
+            function dragEnd() {
+                if (!isDragging) return;
+                isDragging = false;
+                cancelAnimationFrame(animationID);
+                container.classList.remove('grabbing');
+                
+                const movedBy = currentTranslate - prevTranslate;
+                
+                if (movedBy < -80 && currentIndex < slides.length - 1) {
+                    currentIndex += 1;
+                } else if (movedBy > 80 && currentIndex > 0) {
+                    currentIndex -= 1;
+                }
+                
+                setPositionByIndex();
+            }
+            
+            function getPositionX(event) {
+                return event.type.includes('touch') ? event.touches[0].clientX : event.clientX;
+            }
+            
+            function animation() {
+                setSliderPosition();
+                if (isDragging) requestAnimationFrame(animation);
+            }
+            
+            function setSliderPosition() {
+                wrapper.style.transform = `translateX(${currentTranslate}px)`;
+            }
+            
+            function setPositionByIndex() {
+                currentTranslate = currentIndex * -container.clientWidth;
+                prevTranslate = currentTranslate;
+                wrapper.style.transition = 'transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                wrapper.style.transform = `translateX(${currentTranslate}px)`;
+                
+                // Limpa a transição temporária após o movimento para não travar o drag subsequente
+                setTimeout(() => {
+                    if (!isDragging) {
+                        wrapper.style.transition = '';
+                    }
+                }, 400);
+                
+                updateDots();
+            }
+            
+            function updateDots() {
+                dots.forEach((dot, index) => {
+                    if (index === currentIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Trata redimensionamento de tela ajustando a transição
+            window.addEventListener('resize', () => {
+                currentTranslate = currentIndex * -container.clientWidth;
+                prevTranslate = currentTranslate;
+                wrapper.style.transform = `translateX(${currentTranslate}px)`;
+            });
+        });
+    };
+    
+    initializeSliders();
+
 });
