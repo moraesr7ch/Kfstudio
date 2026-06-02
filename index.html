@@ -69,8 +69,16 @@
             </div>
         </header>
 
-        <!-- 2. HERO SECTION -->
+        <!-- 2. HERO SECTION WITH VIDEO BACKGROUND -->
         <section id="home" class="hero-section" aria-label="Apresentação KF Studio">
+            <!-- 🔒 SEGURANÇA [Lei 15]: Video carregado de forma assíncrona, muted, loop, e playsinline para otimização mobile (prevenir redirecionamento nativo) -->
+            <div class="hero-video-wrapper" aria-hidden="true">
+                <video autoplay loop muted playsinline preload="auto" class="hero-video">
+                    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260503_101827_abebfeec-f243-466b-b494-7f6814c0fbbf.mp4" type="video/mp4">
+                </video>
+                <div class="hero-video-overlay"></div>
+            </div>
+            
             <div class="container hero-container">
                 <div class="hero-content reveal" style="transition-delay: 0.15s;">
                     <h1 class="hero-title hero-heading">Eternizando<br><span class="italic-text">momentos</span> especiais</h1>
@@ -119,41 +127,127 @@
                 </div>
 
                 <div class="services-list-wrapper">
-                    <!-- Item 1 -->
-                    <div class="service-item reveal" style="transition-delay: 0.1s;">
-                        <div class="service-number" aria-hidden="true">01</div>
-                        <div class="service-details">
-                            <h3 class="service-name">Ensaios Fotográficos</h3>
-                            <p class="service-desc">Gestante, casal, família e individuais. Eternizamos seus momentos mais importantes com sensibilidade e técnica.</p>
+                    
+                    <!-- Card 1: Ensaios Fotográficos -->
+                    <div class="service-item reveal">
+                        <div class="service-item-content">
+                            <!-- Header -->
+                            <div class="service-item-header">
+                                <div class="service-header-left">
+                                    <span class="service-number-heavy">01</span>
+                                    <div class="service-title-block">
+                                        <span class="service-tag">Fotografia Editorial</span>
+                                        <h3 class="service-name-heavy">Ensaios Fotográficos</h3>
+                                    </div>
+                                </div>
+                                <a href="#contato" class="btn-service-action" aria-label="Orçamento para Ensaios Fotográficos">Fazer Orçamento &rarr;</a>
+                            </div>
+                            
+                            <!-- Body Description -->
+                            <p class="service-description-text">Gestante, casal, família e individuais. Eternizamos seus momentos mais importantes com sensibilidade e técnica.</p>
+                            
+                            <!-- Worked Visual Gallery (Referência das Fotos do Usuário) -->
+                            <div class="service-gallery-grid">
+                                <div class="gallery-photo photo-vertical" aria-hidden="true">
+                                    <div class="photo-lens-reflection"></div>
+                                </div>
+                                <div class="gallery-photo photo-horizontal" aria-hidden="true">
+                                    <div class="photo-lens-reflection"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Item 2 -->
-                    <div class="service-item reveal" style="transition-delay: 0.2s;">
-                        <div class="service-number" aria-hidden="true">02</div>
-                        <div class="service-details">
-                            <h3 class="service-name">Cobertura de Eventos</h3>
-                            <p class="service-desc">Shows, festas, aniversários e eventos corporativos. Registramos cada momento com qualidade cinematográfica.</p>
+                    <!-- Card 2: Cobertura de Eventos -->
+                    <div class="service-item reveal">
+                        <div class="service-item-content">
+                            <!-- Header -->
+                            <div class="service-item-header">
+                                <div class="service-header-left">
+                                    <span class="service-number-heavy">02</span>
+                                    <div class="service-title-block">
+                                        <span class="service-tag">Cobertura Cinematográfica</span>
+                                        <h3 class="service-name-heavy">Cobertura de Eventos</h3>
+                                    </div>
+                                </div>
+                                <a href="#contato" class="btn-service-action" aria-label="Orçamento para Cobertura de Eventos">Fazer Orçamento &rarr;</a>
+                            </div>
+                            
+                            <!-- Body Description -->
+                            <p class="service-description-text">Shows, festas, aniversários e eventos corporativos. Registramos cada momento com qualidade cinematográfica.</p>
+                            
+                            <!-- Worked Visual Gallery (Referência das Fotos do Usuário) -->
+                            <div class="service-gallery-grid layout-alt">
+                                <div class="gallery-photo photo-horizontal-sm" aria-hidden="true">
+                                    <div class="photo-lens-reflection"></div>
+                                </div>
+                                <div class="gallery-photo photo-large-sq" aria-hidden="true">
+                                    <div class="photo-lens-reflection"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Item 3 -->
-                    <div class="service-item reveal" style="transition-delay: 0.3s;">
-                        <div class="service-number" aria-hidden="true">03</div>
-                        <div class="service-details">
-                            <h3 class="service-name">Mídia para Empresas</h3>
-                            <p class="service-desc">Conteúdo profissional para redes sociais e divulgação de estabelecimentos, produtos e serviços.</p>
+                    <!-- Card 3: Mídia para Empresas -->
+                    <div class="service-item reveal">
+                        <div class="service-item-content">
+                            <!-- Header -->
+                            <div class="service-item-header">
+                                <div class="service-header-left">
+                                    <span class="service-number-heavy">03</span>
+                                    <div class="service-title-block">
+                                        <span class="service-tag">Identidade Corporativa</span>
+                                        <h3 class="service-name-heavy">Mídia para Empresas</h3>
+                                    </div>
+                                </div>
+                                <a href="#contato" class="btn-service-action" aria-label="Orçamento para Mídia para Empresas">Fazer Orçamento &rarr;</a>
+                            </div>
+                            
+                            <!-- Body Description -->
+                            <p class="service-description-text">Conteúdo profissional para redes sociais e divulgação de estabelecimentos, produtos e serviços.</p>
+                            
+                            <!-- Worked Visual Gallery (Referência das Fotos do Usuário) -->
+                            <div class="service-gallery-grid">
+                                <div class="gallery-photo photo-vertical" aria-hidden="true">
+                                    <div class="photo-lens-reflection"></div>
+                                </div>
+                                <div class="gallery-photo photo-horizontal" aria-hidden="true">
+                                    <div class="photo-lens-reflection"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Item 4 -->
-                    <div class="service-item reveal" style="transition-delay: 0.4s;">
-                        <div class="service-number" aria-hidden="true">04</div>
-                        <div class="service-details">
-                            <h3 class="service-name">Parcerias Comerciais</h3>
-                            <p class="service-desc">Divulgação estratégica de estabelecimentos e marcas locais com conteúdo autêntico e direcionado.</p>
+                    <!-- Card 4: Parcerias Comerciais -->
+                    <div class="service-item reveal">
+                        <div class="service-item-content">
+                            <!-- Header -->
+                            <div class="service-item-header">
+                                <div class="service-header-left">
+                                    <span class="service-number-heavy">04</span>
+                                    <div class="service-title-block">
+                                        <span class="service-tag">Posicionamento de Marca</span>
+                                        <h3 class="service-name-heavy">Parcerias Comerciais</h3>
+                                    </div>
+                                </div>
+                                <a href="#contato" class="btn-service-action" aria-label="Orçamento para Parcerias Comerciais">Fazer Orçamento &rarr;</a>
+                            </div>
+                            
+                            <!-- Body Description -->
+                            <p class="service-description-text">Divulgação estratégica de estabelecimentos e marcas locais com conteúdo autêntico e direcionado.</p>
+                            
+                            <!-- Worked Visual Gallery (Referência das Fotos do Usuário) -->
+                            <div class="service-gallery-grid layout-alt">
+                                <div class="gallery-photo photo-horizontal-sm" aria-hidden="true">
+                                    <div class="photo-lens-reflection"></div>
+                                </div>
+                                <div class="gallery-photo photo-large-sq" aria-hidden="true">
+                                    <div class="photo-lens-reflection"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>
