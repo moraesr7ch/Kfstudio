@@ -188,27 +188,36 @@ ul {
     top: 0;
     left: 0;
     width: 100%;
-    height: 80px;
-    background-color: rgba(255, 255, 255, 0.85);
-    border-bottom: 1px solid var(--color-border-sutil);
+    height: 100px;
+    background-color: transparent;
+    border-bottom: none;
     display: flex;
     align-items: center;
     z-index: 1000;
-    transition: var(--transition-base);
+    transition: height 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: none; /* Permite rolar/interagir com o fundo */
 }
 
 /* Scrolled state navbar */
 .main-header.scrolled {
-    height: 70px;
-    background-color: rgba(255, 255, 255, 0.98);
-    box-shadow: 0 10px 30px rgba(218, 68, 131, 0.05);
+    height: 80px;
 }
 
 .nav-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Centraliza a pílula de navegação */
     align-items: center;
     width: 100%;
+    position: relative;
+    height: 100%;
+}
+
+.logo-link {
+    position: absolute;
+    left: 24px; /* Posiciona a logo exatamente no padding esquerdo do layout */
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: auto; /* Reativa cliques para a logo */
 }
 
 .logo-img {
@@ -222,21 +231,51 @@ ul {
     height: 42px;
 }
 
+/* 🔒 SEGURANÇA [Lei 15]: Nome da marca com tipografia limpa, moderna e visível integrada ao menu pílula */
+.nav-brand-text {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-style: normal;
+    font-size: 1.05rem;
+    color: var(--color-primary); /* Cor sólida magenta para máxima visibilidade e nitidez */
+    margin-right: 16px;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    user-select: none;
+}
+
+/* Navbar em Pílula Flutuante Translúcida (Desktop) */
 .nav-menu {
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 32px;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(218, 68, 131, 0.15);
+    border-radius: 100px;
+    padding: 6px 6px 6px 28px;
+    box-shadow: 0 12px 30px rgba(218, 68, 131, 0.05), 0 4px 10px rgba(0, 0, 0, 0.01);
+    transition: var(--transition-base);
+    pointer-events: auto; /* Reativa cliques para o menu */
+}
+
+.main-header.scrolled .nav-menu {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-color: rgba(218, 68, 131, 0.25);
+    box-shadow: 0 16px 36px rgba(218, 68, 131, 0.12), 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
 .nav-list {
     display: flex;
-    gap: 32px;
+    gap: 28px;
+    align-items: center;
 }
 
 .nav-item {
     font-family: var(--font-body);
     font-weight: 500;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.15em;
     color: var(--color-text-dark);
@@ -266,14 +305,15 @@ ul {
     transform-origin: left;
 }
 
+/* Botão CTA em Pílula Arredondada */
 .btn-nav-cta {
     background-color: var(--color-primary);
     color: var(--color-bg-light);
-    border-radius: 0;
-    padding: 10px 22px;
+    border-radius: 100px; /* Cantos arredondados de pílula */
+    padding: 10px 24px;
     font-family: var(--font-body);
     font-weight: 500;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.15em;
     display: inline-block;
@@ -282,7 +322,8 @@ ul {
 
 .btn-nav-cta:hover {
     background-color: var(--color-primary-dark);
-    box-shadow: 0 8px 16px rgba(218, 68, 131, 0.15);
+    box-shadow: 0 8px 20px rgba(218, 68, 131, 0.2);
+    transform: translateY(-1px);
 }
 
 /* Hamburguer Mobile */
@@ -294,7 +335,9 @@ ul {
     height: 16px;
     cursor: pointer;
     background: transparent;
+    border: none;
     z-index: 1010;
+    pointer-events: auto; /* Reativa cliques */
 }
 
 .bar {
@@ -455,14 +498,16 @@ ul {
 
 .service-item {
     position: sticky;
-    background-color: #111111; /* Fundo escuro luxuoso conforme referência */
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: var(--color-bg-light); /* Fundo claro luxuoso original */
+    border: 1px solid rgba(218, 68, 131, 0.18); /* Borda sutil magenta */
     border-radius: 32px; /* Cantos super arredondados luxuosos */
     padding: 48px;
-    box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.25), 0 30px 60px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 -15px 35px rgba(218, 68, 131, 0.03), 0 25px 50px rgba(0, 0, 0, 0.04);
+    transform-origin: top center; /* Essencial para a redução de escala suave ao rolar */
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                filter 0.4s cubic-bezier(0.16, 1, 0.3, 1),
                 box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform, box-shadow;
+    will-change: transform, filter, box-shadow;
     overflow: hidden;
 }
 
@@ -512,7 +557,7 @@ ul {
     font-family: var(--font-heading);
     font-size: clamp(2.2rem, 5vw, 3.5rem);
     font-weight: 900;
-    color: var(--color-bg-light);
+    color: var(--color-primary); /* Número gigante no tom magenta */
     line-height: 1;
     letter-spacing: -0.02em;
     user-select: none;
@@ -530,7 +575,7 @@ ul {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    color: var(--color-primary);
+    color: var(--color-text-light);
     margin-bottom: 4px;
 }
 
@@ -538,17 +583,17 @@ ul {
     font-family: var(--font-body);
     font-size: clamp(1.1rem, 2.5vw, 1.7rem);
     font-weight: 700;
-    color: var(--color-bg-light);
+    color: var(--color-text-dark); /* Texto escuro contrastante */
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
 
 /* Botão Arredondado no Card */
 .btn-service-action {
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid var(--color-primary);
     border-radius: 100px;
     padding: 10px 24px;
-    color: var(--color-bg-light);
+    color: var(--color-primary); /* Botão em magenta */
     font-family: var(--font-body);
     font-size: 0.7rem;
     font-weight: 500;
@@ -560,15 +605,15 @@ ul {
 
 .btn-service-action:hover {
     background-color: var(--color-primary);
-    border-color: var(--color-primary);
-    box-shadow: 0 0 15px rgba(218, 68, 131, 0.4);
+    color: var(--color-bg-light);
+    box-shadow: 0 0 15px rgba(218, 68, 131, 0.3);
 }
 
 .service-description-text {
     font-family: var(--font-body);
     font-size: clamp(0.85rem, 1.4vw, 1rem);
     font-weight: 300;
-    color: rgba(255, 255, 255, 0.65);
+    color: var(--color-text-muted); /* Cinza editorial legível */
     margin-bottom: 36px;
     text-align: left;
     max-width: 720px;
@@ -587,8 +632,8 @@ ul {
 }
 
 .gallery-photo {
-    background: linear-gradient(135deg, rgba(218, 68, 131, 0.18) 0%, rgba(218, 68, 131, 0.04) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: linear-gradient(135deg, rgba(218, 68, 131, 0.08) 0%, rgba(218, 68, 131, 0.02) 100%);
+    border: 1px solid rgba(218, 68, 131, 0.15); /* Borda sutil de portfólio claro */
     border-radius: 20px; /* Cantos arredondados nas fotos conforme referência */
     position: relative;
     overflow: hidden;
@@ -619,7 +664,7 @@ ul {
     height: 150%;
     top: -25%;
     left: -25%;
-    background: radial-gradient(circle, rgba(218, 68, 131, 0.08) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(218, 68, 131, 0.05) 0%, transparent 60%);
     pointer-events: none;
     transition: var(--transition-slow);
 }
@@ -627,13 +672,13 @@ ul {
 /* Card Hover */
 @media (hover: hover) {
     .service-item:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 -15px 35px rgba(218, 68, 131, 0.04), 0 35px 70px rgba(0, 0, 0, 0.45);
+        transform: translateY(-5px);
+        box-shadow: 0 -15px 35px rgba(218, 68, 131, 0.05), 0 35px 70px rgba(0, 0, 0, 0.08);
         border-color: var(--color-primary);
     }
     
     .service-item:hover .gallery-photo {
-        border-color: rgba(218, 68, 131, 0.2);
+        border-color: rgba(218, 68, 131, 0.3);
     }
     
     .service-item:hover .photo-lens-reflection {
@@ -1323,12 +1368,35 @@ ul {
 @media (max-width: 900px) {
     .main-header {
         height: 70px;
+        background-color: rgba(255, 255, 255, 0.98);
+        border-bottom: 1px solid var(--color-border-sutil);
+        pointer-events: auto; /* Permite toques normais na barra mobile */
     }
+    
+    .nav-container {
+        justify-content: space-between; /* Restaura o alinhamento flex no mobile */
+        position: relative;
+    }
+    
+    .logo-link {
+        position: static; /* Remove o posicionamento absoluto do desktop */
+        transform: none;
+    }
+    
     .mobile-menu-toggle {
         display: flex;
     }
     
-    /* Nav Drawer */
+    /* Nav Brand Text no topo da gaveta mobile */
+    .nav-brand-text {
+        font-size: 1.5rem;
+        margin-right: 0;
+        margin-bottom: 10px;
+        display: block;
+        align-self: flex-start;
+    }
+    
+    /* Nav Drawer - Reset de propriedades de pílula */
     .nav-menu {
         position: fixed;
         top: 0;
@@ -1337,7 +1405,11 @@ ul {
         max-width: 320px;
         height: 100vh;
         background-color: var(--color-bg-light);
+        border: none;
         border-left: 1px solid var(--color-border-sutil);
+        border-radius: 0; /* Reset de pílula */
+        backdrop-filter: none; /* Reset de pílula */
+        -webkit-backdrop-filter: none; /* Reset de pílula */
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
@@ -1346,6 +1418,7 @@ ul {
         transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         z-index: 1005;
         box-shadow: -10px 0 30px rgba(218, 68, 131, 0.05);
+        pointer-events: auto;
     }
     
     .nav-menu.active {

@@ -153,6 +153,67 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================================================
+    // 5.2 STICKY STACKING CARDS ENHANCEMENT (SCALE DOWN & DEPTH ON SCROLL)
+    // ==========================================================================
+    const servicesWrapper = document.querySelector('.services-list-wrapper');
+    const serviceItemsList = document.querySelectorAll('.service-item');
+    
+    if (servicesWrapper && serviceItemsList.length > 0) {
+        const handleServicesStackingScale = () => {
+            const isDesktop = window.innerWidth > 900;
+            
+            serviceItemsList.forEach((item, index) => {
+                const nextCard = serviceItemsList[index + 1];
+                
+                if (nextCard) {
+                    const nextRect = nextCard.getBoundingClientRect();
+                    // Define o ponto de parada sticky do card seguinte de acordo com o breakpoint responsivo
+                    const nextStickyStop = isDesktop ? (110 + (index + 1) * 30) : (80 + (index + 1) * 30);
+                    
+                    // Calcula a distância entre o topo do card seguinte e sua posição de parada sticky
+                    const distanceToStickyActive = nextRect.top - nextStickyStop;
+                    
+                    // Começa o scale down quando o card de cima está a menos de 280px de travar
+                    if (distanceToStickyActive < 280) {
+                        const progress = Math.max(0, Math.min(1, (280 - distanceToStickyActive) / 280));
+                        // Redução de escala de 1.0 a 0.93 para criar profundidade
+                        const scale = 1 - (progress * 0.05); 
+                        // Escurecimento sutil (brightness de 1.0 a 0.82) para dar a ilusão de sombra da aba
+                        const brightness = 1 - (progress * 0.18);
+                        
+                        item.style.transform = `scale(${scale})`;
+                        item.style.filter = `brightness(${brightness})`;
+                    } else {
+                        item.style.transform = 'scale(1)';
+                        item.style.filter = 'brightness(1)';
+                    }
+                } else {
+                    // O último card sempre mantém escala e brilho totais (100%)
+                    item.style.transform = 'scale(1)';
+                    item.style.filter = 'brightness(1)';
+                }
+            });
+        };
+
+        // Scroll listener passivo otimizado com requestAnimationFrame para evitar lags e manter 60fps constantes
+        let animFrame;
+        window.addEventListener('scroll', () => {
+            if (!animFrame) {
+                animFrame = requestAnimationFrame(() => {
+                    handleServicesStackingScale();
+                    animFrame = null;
+                });
+            }
+        }, { passive: true });
+        
+        // Disparo inicial
+        handleServicesStackingScale();
+        
+        // Tratar redimensionamentos de tela para recalcular os offsets
+        window.addEventListener('resize', handleServicesStackingScale, { passive: true });
+    }
+
+    // ==========================================================================
     // 6. PORTFOLIO FILTER HANDLERS
     // ==========================================================================
     const filterButtons = document.querySelectorAll('.filter-btn');
