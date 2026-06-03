@@ -188,27 +188,36 @@ ul {
     top: 0;
     left: 0;
     width: 100%;
-    height: 80px;
-    background-color: rgba(255, 255, 255, 0.85);
-    border-bottom: 1px solid var(--color-border-sutil);
+    height: 100px;
+    background-color: transparent;
+    border-bottom: none;
     display: flex;
     align-items: center;
     z-index: 1000;
-    transition: var(--transition-base);
+    transition: height 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: none; /* Permite rolar/interagir com o fundo */
 }
 
 /* Scrolled state navbar */
 .main-header.scrolled {
-    height: 70px;
-    background-color: rgba(255, 255, 255, 0.98);
-    box-shadow: 0 10px 30px rgba(218, 68, 131, 0.05);
+    height: 80px;
 }
 
 .nav-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* Centraliza a pílula de navegação */
     align-items: center;
     width: 100%;
+    position: relative;
+    height: 100%;
+}
+
+.logo-link {
+    position: absolute;
+    left: 24px; /* Posiciona a logo exatamente no padding esquerdo do layout */
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: auto; /* Reativa cliques para a logo */
 }
 
 .logo-img {
@@ -222,21 +231,51 @@ ul {
     height: 42px;
 }
 
+/* 🔒 SEGURANÇA [Lei 15]: Nome da marca com tipografia limpa, moderna e visível integrada ao menu pílula */
+.nav-brand-text {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-style: normal;
+    font-size: 1.05rem;
+    color: var(--color-primary); /* Cor sólida magenta para máxima visibilidade e nitidez */
+    margin-right: 16px;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    user-select: none;
+}
+
+/* Navbar em Pílula Flutuante Translúcida (Desktop) */
 .nav-menu {
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 32px;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(218, 68, 131, 0.15);
+    border-radius: 100px;
+    padding: 6px 6px 6px 28px;
+    box-shadow: 0 12px 30px rgba(218, 68, 131, 0.05), 0 4px 10px rgba(0, 0, 0, 0.01);
+    transition: var(--transition-base);
+    pointer-events: auto; /* Reativa cliques para o menu */
+}
+
+.main-header.scrolled .nav-menu {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-color: rgba(218, 68, 131, 0.25);
+    box-shadow: 0 16px 36px rgba(218, 68, 131, 0.12), 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
 .nav-list {
     display: flex;
-    gap: 32px;
+    gap: 28px;
+    align-items: center;
 }
 
 .nav-item {
     font-family: var(--font-body);
     font-weight: 500;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.15em;
     color: var(--color-text-dark);
@@ -266,14 +305,15 @@ ul {
     transform-origin: left;
 }
 
+/* Botão CTA em Pílula Arredondada */
 .btn-nav-cta {
     background-color: var(--color-primary);
     color: var(--color-bg-light);
-    border-radius: 0;
-    padding: 10px 22px;
+    border-radius: 100px; /* Cantos arredondados de pílula */
+    padding: 10px 24px;
     font-family: var(--font-body);
     font-weight: 500;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.15em;
     display: inline-block;
@@ -282,7 +322,8 @@ ul {
 
 .btn-nav-cta:hover {
     background-color: var(--color-primary-dark);
-    box-shadow: 0 8px 16px rgba(218, 68, 131, 0.15);
+    box-shadow: 0 8px 20px rgba(218, 68, 131, 0.2);
+    transform: translateY(-1px);
 }
 
 /* Hamburguer Mobile */
@@ -294,7 +335,9 @@ ul {
     height: 16px;
     cursor: pointer;
     background: transparent;
+    border: none;
     z-index: 1010;
+    pointer-events: auto; /* Reativa cliques */
 }
 
 .bar {
@@ -318,8 +361,35 @@ ul {
     overflow: hidden;
 }
 
+.hero-video-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.75) 100%);
+}
+
 .hero-container {
-    z-index: 2;
+    position: relative;
+    z-index: 3;
 }
 
 .hero-content {
@@ -359,7 +429,7 @@ ul {
     line-height: 0.8;
     user-select: none;
     pointer-events: none;
-    z-index: 1;
+    z-index: 2;
 }
 
 /* ==========================================================================
@@ -421,57 +491,268 @@ ul {
 .services-list-wrapper {
     max-width: 860px;
     margin: 0 auto;
-    border-top: 1px solid var(--color-border-sutil);
+    display: flex;
+    flex-direction: column;
+    gap: 48px; /* Espaço generoso entre as abas antes de empilhar */
 }
 
 .service-item {
-    display: flex;
-    align-items: center;
-    padding: 40px 0;
-    border-bottom: 1px solid var(--color-border-sutil);
-    transition: var(--transition-base);
+    position: sticky;
+    background-color: var(--color-bg-light); /* Fundo claro luxuoso original */
+    border: 1px solid rgba(218, 68, 131, 0.18); /* Borda sutil magenta */
+    border-radius: 32px; /* Cantos super arredondados luxuosos */
+    padding: 48px;
+    box-shadow: 0 -15px 35px rgba(218, 68, 131, 0.03), 0 25px 50px rgba(0, 0, 0, 0.04);
+    transform-origin: top center; /* Essencial para a redução de escala suave ao rolar */
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                filter 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, filter, box-shadow;
+    overflow: hidden;
 }
 
-.service-number {
+/* Efeito Stacking dinâmico calibrado de abas */
+.service-item:nth-child(1) {
+    top: 110px;
+    z-index: 1;
+}
+
+.service-item:nth-child(2) {
+    top: 140px;
+    z-index: 2;
+}
+
+.service-item:nth-child(3) {
+    top: 170px;
+    z-index: 3;
+}
+
+.service-item:nth-child(4) {
+    top: 200px;
+    z-index: 4;
+}
+
+.service-item-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header do Card */
+.service-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+.service-header-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.service-number-heavy {
     font-family: var(--font-heading);
-    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
     font-weight: 900;
-    color: rgba(218, 68, 131, 0.12);
-    width: clamp(80px, 15vw, 150px);
+    color: var(--color-primary); /* Número gigante no tom magenta */
     line-height: 1;
+    letter-spacing: -0.02em;
     user-select: none;
 }
 
-.service-details {
-    flex-grow: 1;
+.service-title-block {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
 }
 
-.service-name {
+.service-tag {
     font-family: var(--font-body);
-    font-weight: 500;
-    font-size: clamp(1rem, 2vw, 1.35rem);
+    font-size: 0.65rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-text-dark);
-    margin-bottom: 8px;
+    letter-spacing: 0.15em;
+    color: var(--color-text-light);
+    margin-bottom: 4px;
+}
+
+.service-name-heavy {
+    font-family: var(--font-body);
+    font-size: clamp(1.1rem, 2.5vw, 1.7rem);
+    font-weight: 700;
+    color: var(--color-text-dark); /* Texto escuro contrastante */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Botão Arredondado no Card */
+.btn-service-action {
+    border: 1px solid var(--color-primary);
+    border-radius: 100px;
+    padding: 10px 24px;
+    color: var(--color-primary); /* Botão em magenta */
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    transition: var(--transition-base);
+    white-space: nowrap;
+}
+
+.btn-service-action:hover {
+    background-color: var(--color-primary);
+    color: var(--color-bg-light);
+    box-shadow: 0 0 15px rgba(218, 68, 131, 0.3);
+}
+
+.service-description-text {
+    font-family: var(--font-body);
+    font-size: clamp(0.85rem, 1.4vw, 1rem);
+    font-weight: 300;
+    color: var(--color-text-muted); /* Cinza editorial legível */
+    margin-bottom: 36px;
+    text-align: left;
+    max-width: 720px;
+}
+
+/* Grade de Imagens Internas (Worked Photo Gallery) */
+.service-gallery-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 20px;
+    width: 100%;
+}
+
+.service-gallery-grid.layout-alt {
+    grid-template-columns: 1.1fr 0.9fr;
+}
+
+.gallery-photo {
+    background: linear-gradient(135deg, rgba(218, 68, 131, 0.08) 0%, rgba(218, 68, 131, 0.02) 100%);
+    border: 1px solid rgba(218, 68, 131, 0.15); /* Borda sutil de portfólio claro */
+    border-radius: 20px; /* Cantos arredondados nas fotos conforme referência */
+    position: relative;
+    overflow: hidden;
     transition: var(--transition-base);
 }
 
-.service-desc {
-    font-family: var(--font-body);
-    font-weight: 300;
-    font-size: clamp(0.85rem, 1.4vw, 1rem);
-    color: var(--color-text-muted);
-    opacity: 0.85;
+.gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: var(--transition-slow);
 }
 
-/* Hover effects services */
-.service-item:hover {
-    padding-left: 20px;
+.photo-vertical {
+    aspect-ratio: 3 / 4;
 }
 
-.service-item:hover .service-name {
-    color: var(--color-primary);
+.photo-horizontal {
+    aspect-ratio: 16 / 10;
+    height: 100%;
+}
+
+.photo-horizontal-sm {
+    aspect-ratio: 16 / 10;
+}
+
+.photo-large-sq {
+    aspect-ratio: 1 / 1;
+    height: 100%;
+}
+
+.photo-lens-reflection {
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    top: -25%;
+    left: -25%;
+    background: radial-gradient(circle, rgba(218, 68, 131, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+    transition: var(--transition-slow);
+}
+
+/* Card Hover */
+@media (hover: hover) {
+    .service-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 -15px 35px rgba(218, 68, 131, 0.05), 0 35px 70px rgba(0, 0, 0, 0.08);
+        border-color: var(--color-primary);
+    }
+    
+    .service-item:hover .gallery-photo {
+        border-color: rgba(218, 68, 131, 0.3);
+    }
+    
+    .service-item:hover .gallery-img {
+        transform: scale(1.05);
+    }
+    
+    .service-item:hover .photo-lens-reflection {
+        transform: scale(1.15) translate(15px, 15px);
+        opacity: 1;
+    }
+}
+
+/* ==========================================================================
+   4.2 GALLERY SLIDER (SWIPE / DRAG STYLE)
+   ========================================================================== */
+.slider-container {
+    position: relative;
+    overflow: hidden;
+    cursor: grab;
+    user-select: none;
+}
+
+.slider-container.grabbing {
+    cursor: grabbing;
+}
+
+.slider-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: none;
+    will-change: transform;
+}
+
+.slider-slide {
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+.slider-dots {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    transition: var(--transition-base);
+}
+
+.dot.active {
+    background-color: var(--color-primary);
+    width: 18px;
+    border-radius: 4px;
 }
 
 /* ==========================================================================
@@ -1155,12 +1436,35 @@ ul {
 @media (max-width: 900px) {
     .main-header {
         height: 70px;
+        background-color: rgba(255, 255, 255, 0.98);
+        border-bottom: 1px solid var(--color-border-sutil);
+        pointer-events: auto; /* Permite toques normais na barra mobile */
     }
+    
+    .nav-container {
+        justify-content: space-between; /* Restaura o alinhamento flex no mobile */
+        position: relative;
+    }
+    
+    .logo-link {
+        position: static; /* Remove o posicionamento absoluto do desktop */
+        transform: none;
+    }
+    
     .mobile-menu-toggle {
         display: flex;
     }
     
-    /* Nav Drawer */
+    /* Nav Brand Text no topo da gaveta mobile */
+    .nav-brand-text {
+        font-size: 1.5rem;
+        margin-right: 0;
+        margin-bottom: 10px;
+        display: block;
+        align-self: flex-start;
+    }
+    
+    /* Nav Drawer - Reset de propriedades de pílula */
     .nav-menu {
         position: fixed;
         top: 0;
@@ -1169,7 +1473,11 @@ ul {
         max-width: 320px;
         height: 100vh;
         background-color: var(--color-bg-light);
+        border: none;
         border-left: 1px solid var(--color-border-sutil);
+        border-radius: 0; /* Reset de pílula */
+        backdrop-filter: none; /* Reset de pílula */
+        -webkit-backdrop-filter: none; /* Reset de pílula */
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
@@ -1178,6 +1486,7 @@ ul {
         transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         z-index: 1005;
         box-shadow: -10px 0 30px rgba(218, 68, 131, 0.05);
+        pointer-events: auto;
     }
     
     .nav-menu.active {
@@ -1222,23 +1531,77 @@ ul {
         padding: 30px 20px;
     }
 
-    /* Services */
+    /* Services Mobile Performance & Stacking adaptation */
     .service-item {
+        padding: 32px 20px; /* Padding reduzido para se adequar a telas móveis */
+    }
+    
+    /* Reajuste sutil de sticky tops para encaixe compacto no celular abaixo da navbar */
+    .service-item:nth-child(1) { top: 80px; }
+    .service-item:nth-child(2) { top: 110px; }
+    .service-item:nth-child(3) { top: 140px; }
+    .service-item:nth-child(4) { top: 170px; }
+
+    .service-item-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 16px;
-    }
-    .service-number {
-        width: auto;
+        margin-bottom: 20px;
+        width: 100%;
     }
 
-    /* Contact */
+    .service-header-left {
+        gap: 16px;
+    }
+
+    .btn-service-action {
+        align-self: flex-start;
+    }
+
+    .service-description-text {
+        margin-bottom: 24px;
+    }
+
+    /* Empilhamento de grade de imagens internas do card em mobile */
+    .service-gallery-grid, 
+    .service-gallery-grid.layout-alt {
+        grid-template-columns: 1fr !important;
+        gap: 12px;
+    }
+
+    .gallery-photo {
+        border-radius: 14px;
+    }
+
+    /* Portfolio Mobile Usability */
+    .portfolio-card-info {
+        bottom: 0; /* Exibe a informação por padrão no mobile, eliminando dependência do hover */
+        padding: 18px 20px;
+        background: linear-gradient(0deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.85) 75%, transparent 100%);
+    }
+    .card-project-name {
+        font-size: 1.15rem;
+    }
+    .portfolio-card:hover {
+        transform: none; /* Previne elevação física desnecessária no mobile */
+        box-shadow: none;
+    }
+    .portfolio-card:hover .placeholder-lens {
+        transform: none; /* Evita repaints caros de aceleração de hardware no mobile */
+    }
+
+    /* Process Mobile Usability */
+    .process-step:hover .step-circle {
+        transform: none; /* Evita zoom no toque no mobile */
+    }
+
+    /* Contact Mobile */
     .contact-split {
         grid-template-columns: 1fr;
         gap: 50px;
     }
     
-    /* Footer */
+    /* Footer Mobile */
     .footer-grid {
         grid-template-columns: 1fr;
         text-align: center;
