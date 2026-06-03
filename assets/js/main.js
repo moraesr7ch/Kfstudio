@@ -406,7 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 msg: encodeHTMLStr(clientData.msg.trim())
             };
 
-            // Simula processamento assíncrono de envio
+            // Processamento de envio antes do redirecionamento ao WhatsApp
             setTimeout(() => {
                 // Registro interno de auditoria e logging seguro (sem vazar dados brutos ou segredos - Lei 14)
                 console.log(`[KF Studio AppSec] Contato seguro recebido e higienizado com sucesso. ID Nome: ${cleanData.name.substring(0, 15)}...`);
@@ -414,8 +414,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Desativa Loader
                 formSubmitBtn.classList.remove('submitting');
                 formSubmitBtn.disabled = false;
+
+                // Pega o texto amigável da opção do serviço selecionado
+                const serviceSelectEl = document.getElementById('form-service');
+                const serviceText = serviceSelectEl.options[serviceSelectEl.selectedIndex].text;
+
+                // 📞 WHATSAPP REAL DO STUDIO: Substitua o número abaixo pelo real (com DDI e DDD, ex: 5515999999999)
+                const studioWhatsAppNumber = '5515999999999';
+
+                // Formatação profissional da mensagem com negritos para facilitar a leitura no celular
+                const formattedMessage = `Olá, KF Studio! Gostaria de solicitar um orçamento:\n\n` +
+                                         `*Nome:* ${cleanData.name}\n` +
+                                         `*WhatsApp:* ${cleanData.phone}\n` +
+                                         `*Serviço:* ${serviceText}\n` +
+                                         `*Mensagem:* ${cleanData.msg}`;
+
+                // Gera a URL do WhatsApp
+                const whatsappUrl = `https://wa.me/${studioWhatsAppNumber}?text=${encodeURIComponent(formattedMessage)}`;
+
+                // 🔒 SEGURANÇA [Lei 11, 15]: Redirecionamento seguro com isolamento de contexto (noopener, noreferrer)
+                window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
                 
-                // Esconde formulário e revela sucesso
+                // Esconde formulário e revela sucesso no site
                 contactForm.style.opacity = '0';
                 setTimeout(() => {
                     contactForm.style.display = 'none';
@@ -426,7 +446,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }, 50);
                 }, 300);
 
-            }, 1500);
+            }, 1200);
         });
     }
 
