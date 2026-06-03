@@ -329,22 +329,55 @@ ul {
 /* Hamburguer Mobile */
 .mobile-menu-toggle {
     display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 24px;
-    height: 16px;
+    position: relative;
+    width: 26px;
+    height: 20px;
     cursor: pointer;
     background: transparent;
     border: none;
     z-index: 1010;
-    pointer-events: auto; /* Reativa cliques */
+    pointer-events: auto;
 }
 
 .bar {
-    width: 100%;
+    position: absolute;
     height: 2px;
     background-color: var(--color-text-dark);
     transition: var(--transition-base);
+    border-radius: 2px;
+}
+
+.bar-top {
+    width: 26px;
+    top: 5px;
+    left: 0;
+    transform-origin: left center;
+}
+
+.bar-mid {
+    width: 2px;
+    height: 20px;
+    top: 0;
+    left: 6px;
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: center center;
+}
+
+.bar-bot {
+    width: 26px;
+    bottom: 5px;
+    left: 0;
+    transform-origin: left center;
+}
+
+.bar-dash {
+    width: 0;
+    height: 2px;
+    top: 9px;
+    left: 6px;
+    opacity: 0;
+    transform-origin: left center;
 }
 
 /* ==========================================================================
@@ -699,6 +732,13 @@ ul {
     }
 }
 
+/* Correção do enquadramento do rosto da família no desktop na seção 1 */
+@media (min-width: 901px) {
+    .services-list-wrapper .service-item:nth-child(1) .photo-horizontal .gallery-img {
+        object-position: 85% center;
+    }
+}
+
 /* ==========================================================================
    4.2 GALLERY SLIDER (SWIPE / DRAG STYLE)
    ========================================================================== */
@@ -823,6 +863,17 @@ ul {
     justify-content: center;
 }
 
+.portfolio-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    transition: var(--transition-slow);
+}
+
 .placeholder-lens {
     position: absolute;
     width: 120%;
@@ -831,6 +882,7 @@ ul {
     top: -10%;
     left: -10%;
     transition: var(--transition-slow);
+    z-index: 2;
 }
 
 .portfolio-card-info {
@@ -845,7 +897,7 @@ ul {
     transition: var(--transition-base);
     display: flex;
     flex-direction: column;
-    z-index: 2;
+    z-index: 3;
 }
 
 .card-category {
@@ -876,6 +928,10 @@ ul {
 
 .portfolio-card:hover .placeholder-lens {
     transform: scale(1.15) translate(10px, 10px);
+}
+
+.portfolio-card:hover .portfolio-video {
+    transform: scale(1.05);
 }
 
 /* Filtragem dinêmica */
@@ -1435,24 +1491,66 @@ ul {
 /* Breakpoint 2: 900px (Notebooks, Tablets Deitados e Telas Grandes) */
 @media (max-width: 900px) {
     .main-header {
-        height: 70px;
-        background-color: rgba(255, 255, 255, 0.98);
-        border-bottom: 1px solid var(--color-border-sutil);
-        pointer-events: auto; /* Permite toques normais na barra mobile */
+        height: auto;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: transparent; /* Remove fundo opaco no mobile */
+        border-bottom: none; /* Remove borda reta do mobile antigo */
+        pointer-events: none; /* Permite scroll em áreas transparentes */
+        padding: 12px 0; /* Espaço para flutuar */
+        transition: padding 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    .main-header.scrolled {
+        padding: 8px 0; /* Fica ligeiramente mais compacta ao rolar */
     }
     
     .nav-container {
-        justify-content: space-between; /* Restaura o alinhamento flex no mobile */
-        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: calc(100% - 32px); /* Margem de 16px nas laterais */
+        max-width: 480px; /* Previne pílula gigante em tablets deitados */
+        height: 56px; /* Altura compacta de pílula */
+        background-color: rgba(255, 255, 255, 0.85); /* Fundo translúcido */
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(218, 68, 131, 0.18); /* Borda sutil magenta */
+        border-radius: 100px; /* Cantos de pílula idênticos ao desktop */
+        padding: 0 20px;
+        margin: 0 auto;
+        box-shadow: 0 10px 30px rgba(218, 68, 131, 0.08);
+        pointer-events: auto; /* Permite cliques normais */
+        transition: var(--transition-base);
+    }
+    
+    .main-header.scrolled .nav-container {
+        background-color: rgba(255, 255, 255, 0.95);
+        border-color: rgba(218, 68, 131, 0.28);
+        box-shadow: 0 12px 35px rgba(218, 68, 131, 0.12);
     }
     
     .logo-link {
-        position: static; /* Remove o posicionamento absoluto do desktop */
+        position: static; /* Remove posicionamento absoluto do desktop */
         transform: none;
+        display: flex;
+        align-items: center;
+    }
+    
+    .logo-img {
+        height: 32px; /* Logo menor e elegante no mobile */
+        width: auto;
+    }
+    
+    .main-header.scrolled .logo-img {
+        height: 32px;
     }
     
     .mobile-menu-toggle {
         display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     /* Nav Brand Text no topo da gaveta mobile */
@@ -1464,7 +1562,7 @@ ul {
         align-self: flex-start;
     }
     
-    /* Nav Drawer - Reset de propriedades de pílula */
+    /* Nav Drawer - Reset de propriedades de pílula com cantos luxo */
     .nav-menu {
         position: fixed;
         top: 0;
@@ -1475,9 +1573,9 @@ ul {
         background-color: var(--color-bg-light);
         border: none;
         border-left: 1px solid var(--color-border-sutil);
-        border-radius: 0; /* Reset de pílula */
-        backdrop-filter: none; /* Reset de pílula */
-        -webkit-backdrop-filter: none; /* Reset de pílula */
+        border-radius: 32px 0 0 32px; /* Cantos arredondados na lateral da gaveta */
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
@@ -1510,15 +1608,32 @@ ul {
         text-align: center;
     }
     
-    /* Hamburger Active states */
-    .mobile-menu-toggle.active .bar-top {
-        transform: translateY(7px) rotate(45deg);
-    }
+    /* Hamburger Active states (Formando o K- da logo da KF Studio) */
     .mobile-menu-toggle.active .bar-mid {
-        opacity: 0;
+        opacity: 1;
+        transform: scaleY(1);
     }
+    
+    .mobile-menu-toggle.active .bar-top {
+        width: 14px;
+        top: 10px;
+        left: 8px; /* Alinhado à borda direita da haste vertical, eliminando rebarbas à esquerda */
+        transform: rotate(-45deg);
+    }
+    
     .mobile-menu-toggle.active .bar-bot {
-        transform: translateY(-7px) rotate(-45deg);
+        width: 14px;
+        top: 10px; /* Compartilha a mesma origem vertical no centro da haste */
+        bottom: auto; /* Sobrescreve o posicionamento original */
+        left: 8px; /* Alinhado à borda direita da haste vertical, eliminando rebarbas à esquerda */
+        transform: rotate(45deg);
+    }
+    
+    .mobile-menu-toggle.active .bar-dash {
+        width: 10px; /* Proporção ideal da logo da marca */
+        left: 8px; /* Alinhado à borda direita da haste vertical */
+        top: 9px; /* Ajuste sutil central */
+        opacity: 1;
     }
 
     /* Hero section adjustment */
@@ -1588,6 +1703,9 @@ ul {
     }
     .portfolio-card:hover .placeholder-lens {
         transform: none; /* Evita repaints caros de aceleração de hardware no mobile */
+    }
+    .portfolio-card:hover .portfolio-video {
+        transform: none; /* Desativa zoom no toque no mobile para performance */
     }
 
     /* Process Mobile Usability */
