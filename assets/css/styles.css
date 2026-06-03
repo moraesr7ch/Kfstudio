@@ -329,22 +329,55 @@ ul {
 /* Hamburguer Mobile */
 .mobile-menu-toggle {
     display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 24px;
-    height: 16px;
+    position: relative;
+    width: 26px;
+    height: 20px;
     cursor: pointer;
     background: transparent;
     border: none;
     z-index: 1010;
-    pointer-events: auto; /* Reativa cliques */
+    pointer-events: auto;
 }
 
 .bar {
-    width: 100%;
+    position: absolute;
     height: 2px;
     background-color: var(--color-text-dark);
     transition: var(--transition-base);
+    border-radius: 2px;
+}
+
+.bar-top {
+    width: 26px;
+    top: 5px;
+    left: 0;
+    transform-origin: left center;
+}
+
+.bar-mid {
+    width: 2px;
+    height: 20px;
+    top: 0;
+    left: 6px;
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: center center;
+}
+
+.bar-bot {
+    width: 26px;
+    bottom: 5px;
+    left: 0;
+    transform-origin: left center;
+}
+
+.bar-dash {
+    width: 0;
+    height: 2px;
+    top: 9px;
+    left: 6px;
+    opacity: 0;
+    transform-origin: left center;
 }
 
 /* ==========================================================================
@@ -830,6 +863,17 @@ ul {
     justify-content: center;
 }
 
+.portfolio-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    transition: var(--transition-slow);
+}
+
 .placeholder-lens {
     position: absolute;
     width: 120%;
@@ -838,6 +882,7 @@ ul {
     top: -10%;
     left: -10%;
     transition: var(--transition-slow);
+    z-index: 2;
 }
 
 .portfolio-card-info {
@@ -852,7 +897,7 @@ ul {
     transition: var(--transition-base);
     display: flex;
     flex-direction: column;
-    z-index: 2;
+    z-index: 3;
 }
 
 .card-category {
@@ -883,6 +928,10 @@ ul {
 
 .portfolio-card:hover .placeholder-lens {
     transform: scale(1.15) translate(10px, 10px);
+}
+
+.portfolio-card:hover .portfolio-video {
+    transform: scale(1.05);
 }
 
 /* Filtragem dinêmica */
@@ -1559,15 +1608,32 @@ ul {
         text-align: center;
     }
     
-    /* Hamburger Active states */
-    .mobile-menu-toggle.active .bar-top {
-        transform: translateY(7px) rotate(45deg);
-    }
+    /* Hamburger Active states (Formando o K- da logo da KF Studio) */
     .mobile-menu-toggle.active .bar-mid {
-        opacity: 0;
+        opacity: 1;
+        transform: scaleY(1);
     }
+    
+    .mobile-menu-toggle.active .bar-top {
+        width: 14px;
+        top: 10px;
+        left: 8px; /* Alinhado à borda direita da haste vertical, eliminando rebarbas à esquerda */
+        transform: rotate(-45deg);
+    }
+    
     .mobile-menu-toggle.active .bar-bot {
-        transform: translateY(-7px) rotate(-45deg);
+        width: 14px;
+        top: 10px; /* Compartilha a mesma origem vertical no centro da haste */
+        bottom: auto; /* Sobrescreve o posicionamento original */
+        left: 8px; /* Alinhado à borda direita da haste vertical, eliminando rebarbas à esquerda */
+        transform: rotate(45deg);
+    }
+    
+    .mobile-menu-toggle.active .bar-dash {
+        width: 10px; /* Proporção ideal da logo da marca */
+        left: 8px; /* Alinhado à borda direita da haste vertical */
+        top: 9px; /* Ajuste sutil central */
+        opacity: 1;
     }
 
     /* Hero section adjustment */
@@ -1637,6 +1703,9 @@ ul {
     }
     .portfolio-card:hover .placeholder-lens {
         transform: none; /* Evita repaints caros de aceleração de hardware no mobile */
+    }
+    .portfolio-card:hover .portfolio-video {
+        transform: none; /* Desativa zoom no toque no mobile para performance */
     }
 
     /* Process Mobile Usability */
