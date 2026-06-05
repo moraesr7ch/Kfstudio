@@ -162,6 +162,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const handleServicesStackingScale = () => {
             const isDesktop = window.innerWidth > 900;
             
+            if (!isDesktop) {
+                // 🔒 SEGURANÇA & PERFORMANCE: Limpa estilos inline no mobile para evitar jank e gargalos de GPU (filter/transform)
+                serviceItemsList.forEach(item => {
+                    item.style.transform = '';
+                    item.style.filter = '';
+                });
+                return;
+            }
+            
             serviceItemsList.forEach((item, index) => {
                 const nextCard = serviceItemsList[index + 1];
                 
@@ -630,5 +639,116 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     initializeSliders();
+
+    // ==========================================================================
+    // 10. HERO VIDEO SMART AUTOPLAY & FALLBACK MANAGEMENT
+    // ==========================================================================
+    const initializeHeroVideo = () => {
+        const heroVideo = document.getElementById('hero-video-element');
+        const heroPoster = document.getElementById('hero-video-poster');
+        
+        if (!heroVideo) return;
+        
+        const playHeroVideo = () => {
+            heroVideo.play()
+                .then(() => {
+                    // Se começou a tocar com sucesso, faz o fade-in do vídeo
+                    heroVideo.style.opacity = '1';
+                    if (heroPoster) {
+                        // Deixa o poster invisível suavemente
+                        heroPoster.style.opacity = '0';
+                    }
+                })
+                .catch((err) => {
+                    console.log("[KF Studio AppSec] Autoplay da hero bloqueado pelo dispositivo (modo de energia ou política de mídia).");
+                    // Mantém opacidade 0 para não mostrar botão de play quebrado no iOS Safari
+                    heroVideo.style.opacity = '0';
+                });
+        };
+        
+        // Tenta tocar imediatamente no load
+        playHeroVideo();
+        
+        // Listener de fallback: tenta tocar na primeira interação genuína do usuário
+        const playOnInteraction = () => {
+            if (heroVideo.paused) {
+                playHeroVideo();
+            }
+            // Remove os listeners após a primeira tentativa de interação
+            window.removeEventListener('scroll', playOnInteraction);
+            window.removeEventListener('click', playOnInteraction);
+            window.removeEventListener('touchstart', playOnInteraction);
+        };
+        
+        window.addEventListener('scroll', playOnInteraction, { passive: true });
+        window.addEventListener('click', playOnInteraction, { passive: true });
+        window.addEventListener('touchstart', playOnInteraction, { passive: true });
+    };
+    
+    initializeHeroVideo();
+
+    // ==========================================================================
+    // 11. PORTFOLIO & SERVICES VIDEO LAZY LOADING (INTERSECTION OBSERVER)
+    // ==========================================================================
+    const initializeLazyVideos = () => {
+        const lazyVideos = document.querySelectorAll('.lazy-video');
+        
+        if (lazyVideos.length === 0) return;
+        
+        const playVisibleVideos = () => {
+            lazyVideos.forEach(video => {
+                if (video.dataset.visible === 'true' && video.paused) {
+                    video.play().catch(err => {
+                        console.log("[KF Studio AppSec] Toque móvel tentou reproduzir mas falhou:", err.message);
+                    });
+                }
+            });
+        };
+        
+        if ('IntersectionObserver' in window) {
+            const videoObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const video = entry.target;
+                    
+                    if (entry.isIntersecting) {
+                        video.dataset.visible = 'true';
+                        // O vídeo está visível -> Carrega e tenta reproduzir
+                        if (video.paused) {
+                            video.play().catch(err => {
+                                console.log("[KF Studio AppSec] Reprodução automática de vídeo secundário bloqueada. Aguardando interação:", err.message);
+                            });
+                        }
+                    } else {
+                        video.dataset.visible = 'false';
+                        // O vídeo saiu da tela -> Pausa imediatamente para poupar CPU/GPU
+                        if (!video.paused) {
+                            video.pause();
+                        }
+                    }
+                });
+            }, {
+                threshold: 0.15,
+                rootMargin: '50px 0px 50px 0px' // Margem para carregar um pouco antes de entrar
+            });
+            
+            lazyVideos.forEach(video => {
+                video.dataset.visible = 'false';
+                videoObserver.observe(video);
+            });
+        } else {
+            // Fallback completo se sem suporte a IntersectionObserver
+            lazyVideos.forEach(video => {
+                video.setAttribute('preload', 'auto');
+                video.play().catch(() => {});
+            });
+        }
+        
+        // Ativação por gesto do usuário (liberação de autoplay bloqueado no mobile)
+        window.addEventListener('scroll', playVisibleVideos, { passive: true });
+        window.addEventListener('click', playVisibleVideos, { passive: true });
+        window.addEventListener('touchstart', playVisibleVideos, { passive: true });
+    };
+    
+    initializeLazyVideos();
 
 });

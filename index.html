@@ -74,8 +74,10 @@
         <section id="home" class="hero-section" aria-label="Apresentação KF Studio">
             <!-- 🔒 SEGURANÇA [Lei 15]: Video carregado de forma assíncrona, muted, loop, e playsinline para otimização mobile (prevenir redirecionamento nativo) -->
             <div class="hero-video-wrapper" aria-hidden="true">
-                <video autoplay loop muted playsinline preload="auto" class="hero-video">
-                    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_145119_f4ec4d9f-3ecd-4116-baa3-26e8cf2df976.mp4" type="video/mp4">
+                <!-- Imagem do poster de alta qualidade que fica visível enquanto o vídeo não reproduz -->
+                <div class="hero-video-poster" id="hero-video-poster"></div>
+                <video loop muted playsinline preload="auto" class="hero-video" id="hero-video-element" style="opacity: 0; transition: opacity 0.5s ease-in-out;">
+                    <source src="assets/videos/hero.mp4" type="video/mp4">
                 </video>
                 <div class="hero-video-overlay"></div>
             </div>
@@ -288,8 +290,8 @@
                             <!-- Worked Visual Gallery (Referência das Fotos do Usuário) -->
                             <div class="service-gallery-grid">
                                 <div class="gallery-photo photo-vertical">
-                                    <!-- 🔒 SEGURANÇA [Lei 15]: Vídeo em retrato otimizado com autoplay, loop, muted, playsinline para visualização móvel sem quebras -->
-                                    <video autoplay loop muted playsinline class="gallery-img" style="object-fit: cover; width: 100%; height: 100%; display: block;">
+                                    <!-- 🔒 SEGURANÇA [Lei 15]: Vídeo em retrato otimizado com autoplay dinâmico, loop, muted, playsinline para visualização móvel sem quebras -->
+                                    <video autoplay loop muted playsinline preload="none" class="gallery-img lazy-video" style="object-fit: cover; width: 100%; height: 100%; display: block;">
                                         <source src="assets/videos/bigburguer.mp4" type="video/mp4">
                                         Seu navegador não suporta a tag de vídeo.
                                     </video>
@@ -336,8 +338,8 @@
                     <!-- Item 1 (Ensaios) - Spans 2 Columns and 2 Rows -->
                     <div class="portfolio-card feat-card reveal" data-category="ensaios">
                         <div class="portfolio-placeholder">
-                            <!-- 🔒 SEGURANÇA [Lei 15]: Vídeo otimizado com autoplay, loop, muted, playsinline para visualização móvel sem quebras -->
-                            <video autoplay loop muted playsinline class="portfolio-video">
+                            <!-- 🔒 SEGURANÇA [Lei 15]: Vídeo otimizado com autoplay dinâmico, loop, muted, playsinline para visualização móvel sem quebras -->
+                            <video autoplay loop muted playsinline preload="none" class="portfolio-video lazy-video">
                                 <source src="assets/videos/ensaio.mp4" type="video/mp4">
                                 Seu navegador não suporta a tag de vídeo.
                             </video>
@@ -352,8 +354,8 @@
                     <!-- Item 2 (Eventos) -->
                     <div class="portfolio-card reveal" data-category="eventos">
                         <div class="portfolio-placeholder">
-                            <!-- 🔒 SEGURANÇA [Lei 15]: Vídeo otimizado com autoplay, loop, muted, playsinline para visualização móvel sem quebras -->
-                            <video autoplay loop muted playsinline class="portfolio-video">
+                            <!-- 🔒 SEGURANÇA [Lei 15]: Vídeo otimizado com autoplay dinâmico, loop, muted, playsinline para visualização móvel sem quebras -->
+                            <video autoplay loop muted playsinline preload="none" class="portfolio-video lazy-video">
                                 <source src="assets/videos/banda.mp4" type="video/mp4">
                                 Seu navegador não suporta a tag de vídeo.
                             </video>
@@ -368,8 +370,8 @@
                     <!-- Item 3 (Empresas) -->
                     <div class="portfolio-card reveal" data-category="empresas">
                         <div class="portfolio-placeholder">
-                            <!-- 🔒 SEGURANÇA [Lei 15]: Vídeo otimizado com autoplay, loop, muted, playsinline para visualização móvel sem quebras -->
-                            <video autoplay loop muted playsinline class="portfolio-video">
+                            <!-- 🔒 SEGURANÇA [Lei 15]: Vídeo otimizado com autoplay dinâmico, loop, muted, playsinline para visualização móvel sem quebras -->
+                            <video autoplay loop muted playsinline preload="none" class="portfolio-video lazy-video">
                                 <source src="assets/videos/empresa.mp4" type="video/mp4">
                                 Seu navegador não suporta a tag de vídeo.
                             </video>
@@ -384,8 +386,8 @@
                     <!-- Item 4 (Famílias) -->
                     <div class="portfolio-card reveal" data-category="familias">
                         <div class="portfolio-placeholder">
-                            <!-- 🔒 SEGURANÇA [Lei 15]: Vídeo otimizado com autoplay, loop, muted, playsinline para visualização móvel sem quebras -->
-                            <video autoplay loop muted playsinline class="portfolio-video">
+                            <!-- 🔒 SEGURANÇA [Lei 15]: Vídeo otimizado com autoplay dinâmico, loop, muted, playsinline para visualização móvel sem quebras -->
+                            <video autoplay loop muted playsinline preload="none" class="portfolio-video lazy-video">
                                 <source src="assets/videos/familia.mp4" type="video/mp4">
                                 Seu navegador não suporta a tag de vídeo.
                             </video>
@@ -400,8 +402,8 @@
                     <!-- Item 5 (Ensaios) -->
                     <div class="portfolio-card reveal" data-category="ensaios">
                         <div class="portfolio-placeholder">
-                            <!-- 🔒 SEGURANÇA [Lei 15]: Vídeo otimizado com autoplay, loop, muted, playsinline para visualização móvel sem quebras -->
-                            <video autoplay loop muted playsinline class="portfolio-video">
+                            <!-- 🔒 SEGURANÇA [Lei 15]: Vídeo otimizado com autoplay dinâmico, loop, muted, playsinline para visualização móvel sem quebras -->
+                            <video autoplay loop muted playsinline preload="none" class="portfolio-video lazy-video">
                                 <source src="assets/videos/moda.mp4" type="video/mp4">
                                 Seu navegador não suporta a tag de vídeo.
                             </video>
