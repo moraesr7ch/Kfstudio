@@ -405,10 +405,27 @@ ul {
     pointer-events: none;
 }
 
+.hero-video-poster {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/1.800.600.png');
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
 .hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    z-index: 2;
 }
 
 .hero-video-overlay {
@@ -418,6 +435,7 @@ ul {
     width: 100%;
     height: 100%;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.75) 100%);
+    z-index: 3;
 }
 
 .hero-container {
@@ -710,8 +728,8 @@ ul {
     transition: var(--transition-slow);
 }
 
-/* Card Hover */
-@media (hover: hover) {
+/* Card Hover (Apenas no Desktop) */
+@media (hover: hover) and (min-width: 901px) {
     .service-item:hover {
         transform: translateY(-5px);
         box-shadow: 0 -15px 35px rgba(218, 68, 131, 0.05), 0 35px 70px rgba(0, 0, 0, 0.08);
@@ -916,22 +934,25 @@ ul {
     color: var(--color-text-dark);
 }
 
-/* Card Hover */
-.portfolio-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(218, 68, 131, 0.08);
-}
-
+/* Card Hover (Informações de Texto Universais) */
 .portfolio-card:hover .portfolio-card-info {
     bottom: 0;
 }
 
-.portfolio-card:hover .placeholder-lens {
-    transform: scale(1.15) translate(10px, 10px);
-}
-
-.portfolio-card:hover .portfolio-video {
-    transform: scale(1.05);
+/* Card Hover (Apenas no Desktop - Transformações de Zoom) */
+@media (hover: hover) and (min-width: 901px) {
+    .portfolio-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(218, 68, 131, 0.08);
+    }
+    
+    .portfolio-card:hover .placeholder-lens {
+        transform: scale(1.15) translate(10px, 10px);
+    }
+    
+    .portfolio-card:hover .portfolio-video {
+        transform: scale(1.05);
+    }
 }
 
 /* Filtragem dinêmica */
