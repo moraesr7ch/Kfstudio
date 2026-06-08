@@ -698,6 +698,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const playVisibleVideos = () => {
             lazyVideos.forEach(video => {
                 if (video.dataset.visible === 'true' && video.paused) {
+                    // 🔒 SEGURANÇA & COMPATIBILIDADE: Força carga do buffer no Safari iOS se não iniciado
+                    if (video.readyState === 0) {
+                        video.load();
+                    }
                     video.play().catch(err => {
                         console.log("[KF Studio AppSec] Toque móvel tentou reproduzir mas falhou:", err.message);
                     });
@@ -714,6 +718,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         video.dataset.visible = 'true';
                         // O vídeo está visível -> Carrega e tenta reproduzir
                         if (video.paused) {
+                            // 🔒 SEGURANÇA & COMPATIBILIDADE: Força carga do buffer se não iniciado (readyState HAVE_NOTHING)
+                            if (video.readyState === 0) {
+                                video.load();
+                            }
                             video.play().catch(err => {
                                 console.log("[KF Studio AppSec] Reprodução automática de vídeo secundário bloqueada. Aguardando interação:", err.message);
                             });
